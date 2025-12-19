@@ -16,7 +16,7 @@ You can specify which test file to use directly in `main.py`.
 2. Specify the name of the test file you want to use by editing the corresponding variable in `main.py`. For example:
 
 ```python
-test_file = "Spd_RF2_20_27_211/test_instance_01.txt"
+test_file = "Spd_Inst_Rid_Final2\Spd_RF2_20_27_211.txt"
 ```
 3. Run the script:
 
