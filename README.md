@@ -2,24 +2,6 @@
 
 This repository contains the implementation of a heuristic for solving the **Minimum Branching Vertex Spanning Tree (MBVST)** problem using a PLE (Piecewise Linear Extension) approach with CPLEX.
 
----
-
-## **Test Instances**
-
-All test instances are located in the folder:  
-# MBVST Project
-
-This repository contains the implementation of a heuristic for solving the **Minimum Branching Vertex Spanning Tree (MBVST)** problem using a PLE (Piecewise Linear Extension) approach with CPLEX.
-
----
-
-## **Test Instances**
-
-All test instances are located in the folder:  # MBVST Project
-
-This repository contains the implementation of a heuristic for solving the **Minimum Branching Vertex Spanning Tree (MBVST)** problem using a PLE (Piecewise Linear Extension) approach with CPLEX.
-
----
 
 ## **Test Instances**
 
