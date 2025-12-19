@@ -1,5 +1,7 @@
 # Heuristic MBVST Project
 
+By : Lamiaa EL OUATILI
+
 This repository contains the code for solving the Minimum Branching Vertex Spanning Tree (MBVST) problem using a lazy PLE approach and heuristic reconnection for large graphs.
 
 ## Test Instances
