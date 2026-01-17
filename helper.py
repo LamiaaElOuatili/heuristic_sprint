@@ -92,3 +92,56 @@ def draw_graph_ax(ax, VG, edges, cycles=None, iteration=0, pos=None):
             nx.draw_networkx_edges(G, pos, edgelist=cycle_edges, edge_color='red', width=2, ax=ax)
 
     return pos
+
+
+def draw_solution(G, T, title="MBVST Solution"):
+    """
+    Draw original graph G with solution tree T highlighted.
+    """
+    if G.number_of_nodes() > 100:
+        print("Graph too large to draw.")
+        return
+
+    # Use same layout for both graphs
+    pos = nx.spring_layout(G, seed=42)
+
+    # File-based labels (1-based)
+    labels = {v: v + 1 for v in G.nodes()}
+
+    plt.figure(figsize=(8, 6))
+
+    # Draw all edges in light gray
+    nx.draw_networkx_edges(
+        G,
+        pos,
+        edge_color="lightgray",
+        width=1
+    )
+
+    # Draw solution edges in red
+    nx.draw_networkx_edges(
+        T,
+        pos,
+        edge_color="red",
+        width=2
+    )
+
+    # Draw nodes
+    nx.draw_networkx_nodes(
+        G,
+        pos,
+        node_color="skyblue",
+        node_size=500
+    )
+
+    # Draw labels
+    nx.draw_networkx_labels(
+        G,
+        pos,
+        labels=labels,
+        font_size=10
+    )
+
+    plt.title(title)
+    plt.axis("off")
+    plt.show()

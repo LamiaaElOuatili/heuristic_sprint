@@ -16,62 +16,24 @@ def get_cycle_bases(solution):
     return cycle_basis
 
 
-def break_cycles(solution, cycle_basis, randomize=True):
-    """
-    Break cycles in the solution while ensuring the graph remains connected.
+def break_cycles_intelligently(G):
+    cycles = nx.cycle_basis(G)
+    removed_edges = []
 
-    Args:
-        solution: dict with 'vertices' and 'selected_edges'
-        cycle_basis: list of cycles (from nx.cycle_basis)
-        randomize: whether to remove edges randomly or deterministically
+    for cycle in cycles:
+        cycle_edges = [
+            (cycle[i], cycle[(i+1) % len(cycle)])
+            for i in range(len(cycle))
+        ]
 
-    Returns:
-        List of edges forming a cycle-free forest
-    """
-    VG = solution["vertices"]
-    edges = set(solution["selected_edges"])  # use set for fast removal
+        # heuristique : enlever l’arête la plus "branchante"
+        edge_to_remove = max(
+            cycle_edges,
+            key=lambda e: G.degree(e[0]) + G.degree(e[1])
+        )
 
-    # Build a graph from the edges
-    G = nx.Graph()
-    G.add_nodes_from(VG)
-    G.add_edges_from(edges)
+        if G.has_edge(*edge_to_remove):
+            G.remove_edge(*edge_to_remove)
+            removed_edges.append(edge_to_remove)
 
-    for cycle in cycle_basis:
-        # Convert cycle nodes to edges
-        cycle_edges = []
-        for i in range(len(cycle)):
-            u = cycle[i]
-            v = cycle[(i + 1) % len(cycle)]
-            if (u, v) in edges:
-                cycle_edges.append((u, v))
-            elif (v, u) in edges:
-                cycle_edges.append((v, u))
-
-        if not cycle_edges:
-            continue
-
-        # Try to remove an edge safely
-        safe_edges = []
-        for e in cycle_edges:
-            G.remove_edge(*e)
-            if nx.is_connected(G):
-                safe_edges.append(e)
-            G.add_edge(*e)  # put it back for next check
-
-        if not safe_edges:
-            # All edges are bridges; cannot remove any edge from this cycle
-            continue
-
-        # Select which safe edge to remove
-        edge_to_remove = random.choice(safe_edges) if randomize else safe_edges[0]
-
-        # Remove it from the graph
-        if edge_to_remove in edges:
-            edges.remove(edge_to_remove)
-        elif (edge_to_remove[1], edge_to_remove[0]) in edges:
-            edges.remove((edge_to_remove[1], edge_to_remove[0]))
-
-        # Also update the graph for subsequent cycles
-        G.remove_edge(*edge_to_remove)
-
-    return list(edges)
+    return removed_edges
